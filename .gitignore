@@ -1,0 +1,8 @@
+# Ignore environment variables
+.env
+
+# Ignore local keys folder
+keys/
+
+# Ignore node_modules
+node_modules/

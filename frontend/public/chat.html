@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat App</title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-white text-black dark:bg-gradient-to-r dark:from-purple-900 dark:to-black dark:text-white">
+
+    <!-- Top Navigation Bar -->
+    <div class="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-900 shadow">
+        <h1 class="text-xl font-bold">Hoss</h1>
+        <div class="space-x-2">
+            <button id="themeToggle" class="bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-4 py-2 rounded">🌙 Toggle Dark Mode</button>
+            <button id="logoutBtn" class="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <!-- 🔑 Login Form (Initially Hidden) -->
+    <div id="loginModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-xl font-bold mb-4">Login to AI Chat</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-2 border rounded dark:bg-gray-700 dark:text-white">
+            <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-4 border rounded dark:bg-gray-700 dark:text-white">
+            <button id="loginBtn" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+            <p class="text-sm text-gray-600 mt-2">Don't have an account? <a href="#" id="registerLink" class="text-blue-500">Register</a></p>
+            <button id="closeLoginModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">✖</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex h-[85vh]">
+        
+        <!-- Sidebar (Chat History) -->
+        <div class="w-1/4 bg-gray-200 dark:bg-gradient-to-b dark:from-purple-900 dark:to-black p-4 shadow-md">
+            <h3 class="text-lg font-semibold">Chat History</h3>
+            <button id="newChatBtn" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded">+ New Chat</button>
+            <ul id="chatList" class="mt-4 space-y-2"></ul>
+        </div>
+
+        <!-- Chat & AI Visualization Area -->
+        <div class="flex w-3/4">
+            <!-- Chat Box -->
+            <div class="w-2/3 flex flex-col justify-between p-6 relative">
+                <div id="chat-box" class="flex flex-col p-4 overflow-y-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg"></div>
+                <div class="mt-4 flex space-x-2">
+                    <input type="text" id="chatInput" placeholder="Type or speak your message..."
+                        class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white">
+                    <button id="chatBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded">⬆️ Send</button>
+                    <button id="voiceBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded">🎤 Speak</button>
+                    <button id="stopTTSBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded">🛑 Stop</button>
+                </div>
+            </div>
+            
+            <!-- AI Listening Animation -->
+            <div id="visualizer-container" class="w-1/3 flex justify-center items-center">
+                <div id="visualizer" class="w-64 h-64 rounded-full animate-pulse opacity-70 shadow-xl"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔥 Correct Script Loading Order -->
+    <script type="module" src="js/firebaseConfig.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/ui.js"></script>
+    <script type="module" src="js/storage.js"></script>
+    <script type="module" src="js/chatListHandler.js"></script>
+    <script type="module" src="js/chatHandler.js"></script>
+    <script type="module" src="js/ttsHandler.js"></script>
+    <script type="module" src="js/whisperHandler.js"></script>
+
+    <script type="module">
+        import { logoutUser } from "./js/auth.js";
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            const logoutButton = document.getElementById("logoutBtn");
+    
+            if (logoutButton) {
+                logoutButton.addEventListener("click", () => {
+                    console.log("🔄 Logging out...");
+                    logoutUser();  // ✅ Call logout function
+                });
+            } else {
+                console.error("❌ Logout button not found!");
+            }
+        });
+    </script>    
+    
+</body>
+</html>
